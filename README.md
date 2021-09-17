@@ -15,5 +15,5 @@ meets all the following features.
 
 ## Implementations planned
 * Java / Spring-Boot
-* JavaScript
+* JavaScript/Typescript
 * Clojure
