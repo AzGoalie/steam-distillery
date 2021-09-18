@@ -1,21 +1,22 @@
-package com.steamdistillery.repositories;
+package com.steamdistillery.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.steamdistillery.respositories.SteamAppRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @SpringBootTest
-public class SteamAppRepositoryTest {
+public class SteamWebApiTest {
 
   @Autowired
-  private SteamAppRepository repository;
+  private SteamWebApi repository;
 
   @Test
   public void testGetApps() {
-    assertThat(repository.getApps().collectList().block()).isNotEmpty();
+    assertThat(repository.getApps()).isNotEmpty();
   }
 
   @Test

@@ -2,40 +2,64 @@ package com.steamdistillery.utils;
 
 import com.steamdistillery.models.App;
 import com.steamdistillery.respositories.AppRepository;
-import com.steamdistillery.respositories.SteamAppRepository;
-import com.steamdistillery.respositories.SteamAppRepository.SteamApp;
-import java.time.Duration;
-import java.util.List;
+import com.steamdistillery.utils.SteamWebApi.SteamApp;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 @Slf4j
 @Service
 public class UpdateAppDatabase {
-  private final SteamAppRepository steamAppRepository;
+  private final SteamWebApi steamAppRepository;
 
   private final AppRepository appRepository;
 
-  public UpdateAppDatabase(SteamAppRepository steamAppRepository, AppRepository appRepository) {
+  public UpdateAppDatabase(SteamWebApi steamAppRepository, AppRepository appRepository) {
     this.steamAppRepository = steamAppRepository;
     this.appRepository = appRepository;
   }
 
   @Scheduled(fixedDelay = 1000 * 60 * 60)
   public void update() {
-    List<Integer> appids = appRepository.findAll().stream().map(App::getAppid).toList();
-    log.info("{} known apps already", appids.size());
+    var allApps = steamAppRepository.getApps();
+    log.info("{} total apps", allApps.size());
+    log.info("{} known apps already", appRepository.count());
 
-    steamAppRepository
-        .getApps()
-        .map(SteamApp::appid)
-        .filter(appid -> !appids.contains(appid))
-        .delayElements(Duration.ofSeconds(2))
-        .doOnNext(appid -> log.info("Fetching details for appid:{}", appid))
-        .flatMap(steamAppRepository::getAppDetails)
-        .onErrorContinue((e, appid) -> log.error("Failed to get details for appid:}" + appid, e))
-        .doOnNext(app -> log.info("Saving app [appid:{}, name:{}]", app.getAppid(), app.getName()))
-        .subscribe(appRepository::save);
+    allApps
+        .stream()
+        .filter(steamApp -> appRepository.findByAppid(steamApp.appid()) == null)
+        .map(this::processSteamApp)
+        .filter(Objects::nonNull)
+        .forEach(this::saveToDb);
+  }
+
+  private App processSteamApp(SteamApp steamApp) {
+    try {
+      Thread.sleep(2000);
+      log.info("Fetching details for {}", steamApp);
+      var response = steamAppRepository.getAppDetails(steamApp.appid());
+
+      if (response.success()) {
+        return response.app();
+      } else {
+        var removedApp = new App();
+        removedApp.setAppid(steamApp.appid());
+        removedApp.setName(steamApp.name());
+        return removedApp;
+      }
+    } catch (WebClientException e) {
+      log.error("Network error when retrieving app details for {}", steamApp);
+      return null;
+    } catch (InterruptedException e) {
+      log.error("Error while sleeping", e);
+      return null;
+    }
+  }
+
+  private void saveToDb(App app) {
+    log.info("Adding [appid={}, name={}] to database", app.getAppid(), app.getName());
+    appRepository.save(app);
   }
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class Screenshot {
   @JsonProperty("id")
-  private int id;
+  private Integer id;
 
   @JsonProperty("path_thumbnail")
   private String thumbnail;

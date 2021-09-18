@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class Movie {
   @JsonProperty("id")
-  private int id;
+  private Integer id;
 
   @JsonProperty("name")
   private String name;
@@ -28,7 +28,7 @@ public class Movie {
   private Format mp4;
 
   @JsonProperty("highlight")
-  private boolean highlight;
+  private Boolean highlight;
 
   @Embeddable
   @Getter

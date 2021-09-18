@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class Platforms {
   @JsonProperty("windows")
-  private boolean windows;
+  private Boolean windows;
 
   @JsonProperty("mac")
-  private boolean mac;
+  private Boolean mac;
 
   @JsonProperty("linux")
-  private boolean linux;
+  private Boolean linux;
 }

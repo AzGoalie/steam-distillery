@@ -38,7 +38,7 @@ public class PackageGroup {
   private String saveText;
 
   @JsonProperty("display_type")
-  private int displayType;
+  private Integer displayType;
 
   @JsonProperty("is_recurring_subscription")
   private String isRecurringSubscription;
@@ -52,13 +52,13 @@ public class PackageGroup {
   @Setter
   public static class Sub {
     @JsonProperty("packageid")
-    private int packageId;
+    private Integer packageId;
 
     @JsonProperty("percent_savings_text")
     private String percentSavingsText;
 
     @JsonProperty("percent_savings")
-    private int percentSavings;
+    private Integer percentSavings;
 
     @JsonProperty("option_text")
     private String optionText;
@@ -70,9 +70,9 @@ public class PackageGroup {
     private String canGetFreeLicense;
 
     @JsonProperty("is_free_license")
-    private boolean isFreeLicense;
+    private Boolean isFreeLicense;
 
     @JsonProperty("price_in_cents_with_discount")
-    private int priceInCentsWithDiscount;
+    private Integer priceInCentsWithDiscount;
   }
 }

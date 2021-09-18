@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class Demo {
   @JsonProperty("appid")
-  private int appid;
+  private Integer appid;
 
   @JsonProperty("description")
   private String description;

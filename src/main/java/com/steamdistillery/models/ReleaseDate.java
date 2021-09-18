@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class ReleaseDate {
   @JsonProperty("coming_soon")
-  private boolean comingSoon;
+  private Boolean comingSoon;
 
   @JsonProperty("date")
   private String date;

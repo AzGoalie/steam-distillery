@@ -1,18 +1,15 @@
 package com.steamdistillery;
 
-import com.steamdistillery.utils.UpdateAppDatabase;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @SpringBootTest
 class SteamDistilleryApplicationTests {
 
-  @Autowired
-  private UpdateAppDatabase updateAppDatabase;
-
   @Test
   void contextLoads() {
-    updateAppDatabase.update();
+
   }
 }

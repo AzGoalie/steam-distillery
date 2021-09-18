@@ -3,13 +3,13 @@ package com.steamdistillery.configs;
 import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
+@Configuration
 public class H2ConsoleConfig {
   private org.h2.tools.Server webServer;
 
