@@ -2,9 +2,11 @@ package com.steamdistillery.utils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.steamdistillery.models.App;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -46,17 +48,24 @@ public class SteamWebApi {
         .block();
   }
 
-  public AppDetailsResponse getAppDetails(int appid) {
+  public AppDetailsResponse getAppDetails(int appid) throws SteamWebApiException {
 
-    return client
-        .get()
-        .uri(APP_DETAILS_URL + appid)
-        .accept(MediaType.APPLICATION_JSON)
-        .retrieve()
-        .bodyToMono(new ParameterizedTypeReference<Map<String, AppDetailsResponse>>() {
-        })
-        .map(map -> map.get(Integer.toString(appid)))
-        .block();
+    try {
+      Optional<AppDetailsResponse> response = client
+          .get()
+          .uri(APP_DETAILS_URL + appid)
+          .accept(MediaType.APPLICATION_JSON)
+          .retrieve()
+          .bodyToMono(new ParameterizedTypeReference<Map<String, AppDetailsResponse>>() {
+          })
+          .map(map -> map.get(Integer.toString(appid)))
+          .delayElement(Duration.ofSeconds(2))
+          .blockOptional();
+
+      return response.orElseThrow(() -> new SteamWebApiException("Null response"));
+    } catch (Exception e) {
+      throw new SteamWebApiException(e.getMessage());
+    }
   }
 
   public record SteamApp(
@@ -67,5 +76,11 @@ public class SteamWebApi {
   public record AppDetailsResponse(
       @JsonProperty("success") boolean success,
       @JsonProperty("data") App app) {
+  }
+
+  public static class SteamWebApiException extends Exception {
+    public SteamWebApiException(String msg) {
+      super(msg);
+    }
   }
 }

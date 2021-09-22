@@ -11,10 +11,10 @@ import org.springframework.context.event.EventListener;
 @Slf4j
 @Configuration
 public class H2ConsoleConfig {
-  private org.h2.tools.Server webServer;
-
   @Value("${h2-console-port}")
   Integer h2ConsolePort;
+
+  private org.h2.tools.Server webServer;
 
   @EventListener(ContextRefreshedEvent.class)
   public void start() throws SQLException {

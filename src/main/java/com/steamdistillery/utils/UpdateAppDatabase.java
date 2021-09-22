@@ -3,43 +3,55 @@ package com.steamdistillery.utils;
 import com.steamdistillery.models.App;
 import com.steamdistillery.respositories.AppRepository;
 import com.steamdistillery.utils.SteamWebApi.SteamApp;
+import com.steamdistillery.utils.SteamWebApi.SteamWebApiException;
+import java.time.Duration;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientException;
 
 @Slf4j
 @Service
 public class UpdateAppDatabase {
-  private final SteamWebApi steamAppRepository;
+  private final SteamWebApi api;
 
   private final AppRepository appRepository;
 
-  public UpdateAppDatabase(SteamWebApi steamAppRepository, AppRepository appRepository) {
-    this.steamAppRepository = steamAppRepository;
+  public UpdateAppDatabase(SteamWebApi api, AppRepository appRepository) {
+    this.api = api;
     this.appRepository = appRepository;
   }
 
   @Scheduled(fixedDelay = 1000 * 60 * 60)
   public void update() {
-    var allApps = steamAppRepository.getApps();
-    log.info("{} total apps", allApps.size());
-    log.info("{} known apps already", appRepository.count());
+    var allApps = api.getApps();
+    var knownAppIds = appRepository.findAllAppIds();
+
+    var numberOfApps = allApps.size();
+    var numberOfKnownApps = knownAppIds.size();
+    var numberOfNewApps = numberOfApps - numberOfKnownApps;
+    var timeToFinish = Duration.ofSeconds(numberOfNewApps * 2L)
+        .toString()
+        .substring(2)
+        .replaceAll("(\\d[HMS])(?!$)", "$1 ");
+
+    log.info("{} total apps", numberOfApps);
+    log.info("{} known apps already", numberOfKnownApps);
+    log.info("Update will finish in {}", timeToFinish);
 
     allApps
         .stream()
-        .filter(steamApp -> appRepository.findByAppid(steamApp.appid()) == null)
+        .filter(steamApp -> !knownAppIds.contains(steamApp.appid()))
         .map(this::processSteamApp)
         .filter(Objects::nonNull)
         .forEach(this::saveToDb);
   }
 
   private App processSteamApp(SteamApp steamApp) {
+    log.info("Fetching details for {}", steamApp);
+
     try {
-      Thread.sleep(2000);
-      log.info("Fetching details for {}", steamApp);
-      var response = steamAppRepository.getAppDetails(steamApp.appid());
+      var response = api.getAppDetails(steamApp.appid());
 
       if (response.success()) {
         return response.app();
@@ -49,11 +61,8 @@ public class UpdateAppDatabase {
         removedApp.setName(steamApp.name());
         return removedApp;
       }
-    } catch (WebClientException e) {
-      log.error("Network error when retrieving app details for {}", steamApp);
-      return null;
-    } catch (InterruptedException e) {
-      log.error("Error while sleeping", e);
+    } catch (SteamWebApiException e) {
+      log.error("Failed to get details for appid:{}", steamApp);
       return null;
     }
   }
