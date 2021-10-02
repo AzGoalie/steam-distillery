@@ -24,6 +24,8 @@ public class UpdateAppDatabase {
 
   @Scheduled(fixedDelay = 1000 * 60 * 60)
   public void update() {
+    log.info("Searching for new apps");
+
     var allApps = api.getApps();
     var knownAppIds = repository.getAppids();
 
@@ -40,6 +42,8 @@ public class UpdateAppDatabase {
         .map(this::processSteamApp)
         .filter(Objects::nonNull)
         .forEach(this::saveToDatabase);
+
+    log.info("Finished searching for new apps");
   }
 
   private App processSteamApp(SteamApp steamApp) {
@@ -64,7 +68,7 @@ public class UpdateAppDatabase {
 
   private void saveToDatabase(App app) {
     try {
-      repository.save(app);
+      repository.saveAndFlush(app);
     } catch (Exception e) {
       log.error("Failed to save [appid: " + app.getAppid() + "] to database", e);
     }

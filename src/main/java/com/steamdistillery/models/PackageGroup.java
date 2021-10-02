@@ -66,6 +66,7 @@ public class PackageGroup {
     private String optionText;
 
     @JsonProperty("option_description")
+    @Lob
     private String optionDescription;
 
     @JsonProperty("can_get_free_license")
