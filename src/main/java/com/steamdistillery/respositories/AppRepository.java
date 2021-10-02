@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface AppRepository extends JpaRepository<App, Long> {
   App findByAppid(int appid);
 
-  @Query(value = "select appid FROM app", nativeQuery = true)
-  List<Integer> findAllAppIds();
+  @Query("select appid from App")
+  List<Integer> getAppids();
 }

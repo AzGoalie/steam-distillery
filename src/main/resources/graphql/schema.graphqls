@@ -1,0 +1,8 @@
+type Query {
+    apps(first: Int!, after: String): AppConnection @connection(for: "App")
+}
+
+type App {
+    appid: ID!
+    name: String
+}

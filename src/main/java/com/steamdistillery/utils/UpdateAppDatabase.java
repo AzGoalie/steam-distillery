@@ -15,40 +15,35 @@ import org.springframework.stereotype.Service;
 public class UpdateAppDatabase {
   private final SteamWebApi api;
 
-  private final AppRepository appRepository;
+  private final AppRepository repository;
 
-  public UpdateAppDatabase(SteamWebApi api, AppRepository appRepository) {
+  public UpdateAppDatabase(SteamWebApi api, AppRepository repository) {
     this.api = api;
-    this.appRepository = appRepository;
+    this.repository = repository;
   }
 
   @Scheduled(fixedDelay = 1000 * 60 * 60)
   public void update() {
     var allApps = api.getApps();
-    var knownAppIds = appRepository.findAllAppIds();
+    var knownAppIds = repository.getAppids();
 
-    var numberOfApps = allApps.size();
-    var numberOfKnownApps = knownAppIds.size();
-    var numberOfNewApps = numberOfApps - numberOfKnownApps;
+    var numberOfNewApps = allApps.size() - knownAppIds.size();
     var timeToFinish = Duration.ofSeconds(numberOfNewApps * 2L)
         .toString()
         .substring(2)
         .replaceAll("(\\d[HMS])(?!$)", "$1 ");
 
-    log.info("{} total apps", numberOfApps);
-    log.info("{} known apps already", numberOfKnownApps);
-    log.info("Update will finish in {}", timeToFinish);
+    log.info("Adding {} new apps - ETA {}", numberOfNewApps, timeToFinish);
 
-    allApps
-        .stream()
+    allApps.stream()
         .filter(steamApp -> !knownAppIds.contains(steamApp.appid()))
         .map(this::processSteamApp)
         .filter(Objects::nonNull)
-        .forEach(this::saveToDb);
+        .forEach(this::saveToDatabase);
   }
 
   private App processSteamApp(SteamApp steamApp) {
-    log.info("Fetching details for {}", steamApp);
+    log.info("Adding {}", steamApp);
 
     try {
       var response = api.getAppDetails(steamApp.appid());
@@ -67,8 +62,11 @@ public class UpdateAppDatabase {
     }
   }
 
-  private void saveToDb(App app) {
-    log.info("Adding [appid={}, name={}] to database", app.getAppid(), app.getName());
-    appRepository.save(app);
+  private void saveToDatabase(App app) {
+    try {
+      repository.save(app);
+    } catch (Exception e) {
+      log.error("Failed to save [appid: " + app.getAppid() + "] to database", e);
+    }
   }
 }

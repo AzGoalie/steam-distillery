@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -51,7 +50,7 @@ public class SteamWebApi {
   public AppDetailsResponse getAppDetails(int appid) throws SteamWebApiException {
 
     try {
-      Optional<AppDetailsResponse> response = client
+      var response = client
           .get()
           .uri(APP_DETAILS_URL + appid)
           .accept(MediaType.APPLICATION_JSON)

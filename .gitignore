@@ -1,5 +1,6 @@
 apps.mv.db
 apps.trace.db
+logs/
 
 HELP.md
 .gradle

@@ -15,6 +15,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.graphql-java-kickstart:graphql-spring-boot-starter:12.0.0'
     runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
