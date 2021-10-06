@@ -15,10 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
+@Component
 public class AppQueryResolver implements GraphQLQueryResolver {
 
   private final AppRepository repository;

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +20,8 @@ public class PackageGroup {
   @GeneratedValue
   private long id;
 
-  @ManyToMany
-  private List<App> apps;
+  @ManyToOne
+  private App app;
 
   @JsonProperty("name")
   private String name;

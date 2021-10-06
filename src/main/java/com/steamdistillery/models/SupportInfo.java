@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SupportInfo {
-  @JsonProperty("coming_soon")
-  private Boolean comingSoon;
+  @JsonProperty("url")
+  private String url;
 
-  @JsonProperty("date")
-  private String date;
+  @JsonProperty("email")
+  private String email;
 }

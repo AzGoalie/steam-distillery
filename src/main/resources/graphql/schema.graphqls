@@ -1,8 +1,154 @@
 type Query {
     apps(first: Int!, after: String): AppConnection @connection(for: "App")
 }
-
 type App {
     appid: ID!
     name: String
+    type: String
+    requiredAge: Int
+    controllerSupport: String
+    dlc: [Int!]
+    detailedDescription: String
+    aboutTheGame: String
+    shortDescription: String
+    fullgame: Fullgame
+    supportedLanguages: String
+    headerImage: String
+    website: String
+    pcRequirements: Requirements
+    macRequirements: Requirements
+    linuxRequirements: Requirements
+    legalNotice: String
+    developers: [String!]
+    publishers: [String!]
+    demos: [Demo!]
+    priceOverview: PriceOverview
+    packages: [Int!]
+    packageGroups: [PackageGroup!]
+    platforms: Platforms
+    metacritic: Metacritic
+    categories: [Category!]
+    genres: [Genre!]
+    screenshots: [Screenshot!]
+    movies: [Movie!]
+    recommendations: Recommendations
+    achievements: Achievements
+    releaseDate: ReleaseDate
+    supportInfo: SupportInfo
+    background: String
+    contentDescriptors: ContentDescriptors
+}
+
+type Fullgame {
+    appid: Int
+    name: String
+}
+
+type Requirements {
+    minimum: String
+    recommended: String
+}
+
+type Demo {
+    appid: Int
+    description: String
+}
+
+type PriceOverview {
+    currency: String
+    initialPrice: Int
+    finalPrice: Int
+    discountPercent: Int
+    initialFormatted: String
+    finalFormatted: String
+}
+
+type PackageGroup {
+    name: String
+    title: String
+    description: String
+    selectionText: String
+    saveText: String
+    displayType: Int
+    isRecurringSubscription: String
+    subs: [Sub!]
+}
+
+type Sub {
+    packageId: Int
+    percentSavingsText: String
+    optionText: String
+    optionDescription: String
+    canGetFreeLicense: String
+    priceInCentsWithDiscount: Int
+}
+
+type Platforms {
+    windows: Boolean
+    mac: Boolean
+    linux: Boolean
+}
+
+type Metacritic {
+    score: Int
+    url: String
+}
+
+type Category {
+    id: Int
+    description: String
+}
+
+type Genre {
+    id: Int
+    description: String
+}
+
+type Screenshot {
+    id: Int
+    thumbnail: String
+    full: String
+}
+
+type Movie {
+    id: Int
+    name: String
+    thumbnail: String
+    webm: Format
+    mp4: Format
+    highlight: Boolean
+}
+
+type Format {
+    lowRes: String
+    highRes: String
+}
+
+type Recommendations {
+    total: Int
+}
+
+type Achievements {
+    total: Int
+    highlighted: [Achievement!]
+}
+
+type Achievement {
+    name: String
+    path: String
+}
+
+type ReleaseDate {
+    comingSoon: Boolean
+    date: String
+}
+
+type SupportInfo {
+    url: String
+    email: String
+}
+
+type ContentDescriptors {
+    ids: [Int!]
+    notes: String
 }
