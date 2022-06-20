@@ -1,0 +1,6 @@
+spring:
+  jpa:
+    open-in-view: false
+
+max-page-size: 100
+max-buffer-size: 10485760

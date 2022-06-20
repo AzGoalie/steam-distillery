@@ -1,0 +1,56 @@
+type Query {
+    """Fetches all apps that match the filter."""
+    apps(filter: AppFilter): AppPage
+
+    """Get an individual app."""
+    app(appid: ID!): App
+
+    """Fetch a list of all categories."""
+    categories: [String]
+}
+
+"""Information about a Steam application."""
+type App {
+    """The unique appid."""
+    appid: ID!
+
+    """The name of that application."""
+    name: String!
+
+    """The categories the application is part of."""
+    categories: [String]!
+}
+
+"""A filter for searching apps."""
+input AppFilter {
+    """The appids filter by."""
+    appids: [ID!]
+
+    """The categories to filter by."""
+    categories: [String!]
+
+    """How many results to return."""
+    limit: Int = 100
+
+    """The page to start from."""
+    page: Int = 0
+}
+
+"""A page of a list of apps."""
+type AppPage {
+    """A list of apps."""
+    content: [App]
+
+    """Information to aid in pagination."""
+    pageInfo: PageInfo!
+}
+
+
+"""Information about a page."""
+type PageInfo {
+    """When paginating forwards, are there more items?"""
+    hasNext: Boolean!
+
+    """When paginating backwards, are there more items?"""
+    hasPrevious: Boolean!
+}
