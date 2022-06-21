@@ -1,6 +1,10 @@
 spring:
   jpa:
     open-in-view: false
+  graphql:
+    cors:
+      allowed-origins: '*'
+      allow-credentials: false
 
 max-page-size: 100
 max-buffer-size: 10485760
