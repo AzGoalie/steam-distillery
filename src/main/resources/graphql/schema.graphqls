@@ -5,6 +5,9 @@ type Query {
     """Get an individual app."""
     app(appid: ID!): App
 
+    """Get the owned apps for a given steamid."""
+    getOwnedApps(steamid: ID!): [App]!
+
     """Fetch a list of all categories."""
     categories: [String]
 }
@@ -18,7 +21,7 @@ type App {
     name: String!
 
     """The categories the application is part of."""
-    categories: [String]!
+    categories: [String]
 }
 
 """A filter for searching apps."""

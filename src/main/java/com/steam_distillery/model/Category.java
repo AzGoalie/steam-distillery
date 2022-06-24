@@ -18,6 +18,10 @@ public class Category {
   protected Category() {
   }
 
+  protected Category(String description) {
+    this.description = description;
+  }
+
   public Category(Long id, String description) {
     this.id = id;
     this.description = description;

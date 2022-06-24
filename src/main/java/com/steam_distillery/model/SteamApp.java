@@ -28,6 +28,11 @@ public class SteamApp {
   protected SteamApp() {
   }
 
+  public SteamApp(Long appid, String name) {
+    this.appid = appid;
+    this.name = name;
+  }
+
   public SteamApp(Long appid, String name, Set<Category> categories) {
     this.appid = appid;
     this.name = name;

@@ -20,8 +20,9 @@ public class SteamDistilleryApplication {
   @Profile("dev")
   CommandLineRunner initSteamApps(SteamAppRepository repository, SteamApiService apiService) {
     return args -> {
-      SteamApp halfLife = apiService.getSteamApp(70L).get();
-      SteamApp counterStrike = apiService.getSteamApp(10L).get();
+      SteamApp halfLife = apiService.getSteamApp(70L).orElse(new SteamApp(70L, "Half-Life"));
+      SteamApp counterStrike = apiService.getSteamApp(10L)
+          .orElse(new SteamApp(10L, "Counter-Strike"));
 
       repository.saveAll(Set.of(halfLife, counterStrike));
     };

@@ -6,6 +6,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.steam_distillery.model.Category;
 import com.steam_distillery.model.SteamApp;
 import com.steam_distillery.repository.SteamAppRepository;
+import com.steam_distillery.service.SteamApiService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +36,11 @@ public class SteamAppResource {
 
   private final SteamAppRepository appRepository;
 
-  public SteamAppResource(SteamAppRepository appRepository) {
+  private final SteamApiService apiService;
+
+  public SteamAppResource(SteamAppRepository appRepository, SteamApiService apiService) {
     this.appRepository = appRepository;
+    this.apiService = apiService;
   }
 
   @QueryMapping
@@ -62,9 +66,15 @@ public class SteamAppResource {
   }
 
   @QueryMapping
-  Optional<SteamApp> app(@Argument Long appid) {
+  Optional<SteamApp> app(@Argument long appid) {
     log.info("Fetching app with id: {}", appid);
     return appRepository.findById(appid);
+  }
+
+  @QueryMapping
+  Set<SteamApp> getOwnedApps(@Argument long steamid) {
+    log.info("Fetching owned games for steamid: {}", steamid);
+    return apiService.getOwnedApps(steamid);
   }
 
   @BatchMapping(typeName = "App")

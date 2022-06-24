@@ -29,6 +29,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
+    testImplementation "com.github.tomakehurst:wiremock-jre8:2.33.2"
 
     // Fix for issues on M1 Mac
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'

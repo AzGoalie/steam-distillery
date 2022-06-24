@@ -30,14 +30,14 @@ public class SteamAppUpdateJob {
     Set<Long> knownAppids = repository.findAllAppids();
     log.info("{} known apps", knownAppids.size());
 
-    Set<Long> newAppids = apiService
-        .getAllSteamAppids()
+    Set<SteamApp> newAppids = apiService
+        .getAllSteamApps()
         .stream()
-        .filter(appid -> !knownAppids.contains(appid))
+        .filter(app -> !knownAppids.contains(app.getAppid()))
         .collect(Collectors.toSet());
     log.info("{} new appids", newAppids.size());
 
-    newAppids.forEach(appid -> apiService.getSteamApp(appid).ifPresent(this::addSteamApp));
+    newAppids.forEach(app -> apiService.getSteamApp(app.getAppid()).ifPresent(this::addSteamApp));
 
     log.info("Finished updating steam app database");
   }

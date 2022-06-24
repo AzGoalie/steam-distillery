@@ -8,3 +8,7 @@ spring:
 
 max-page-size: 100
 max-buffer-size: 10485760
+steam:
+  api-key: ${STEAM_API_KEY}
+  api-base-url: 'https://api.steampowered.com'
+  app-details-url: 'https://store.steampowered.com/api/appdetails'
