@@ -48,7 +48,6 @@ public class SteamApiService {
         .uri(apiBaseUrl + "/ISteamApps/GetAppList/v2")
         .retrieve()
         .bodyToMono(Response.class)
-        .log()
         .map(response -> response.applist.apps)
         .onErrorReturn(Collections.emptySet())
         .block();

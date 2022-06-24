@@ -3,6 +3,7 @@ package com.steam_distillery.job;
 import com.steam_distillery.model.SteamApp;
 import com.steam_distillery.repository.SteamAppRepository;
 import com.steam_distillery.service.SteamApiService;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -37,7 +38,11 @@ public class SteamAppUpdateJob {
         .collect(Collectors.toSet());
     log.info("{} new appids", newAppids.size());
 
-    newAppids.forEach(app -> apiService.getSteamApp(app.getAppid()).ifPresent(this::addSteamApp));
+    newAppids
+        .stream()
+        .map(app -> apiService.getSteamApp(app.getAppid()))
+        .flatMap(Optional::stream)
+        .forEach(this::addSteamApp);
 
     log.info("Finished updating steam app database");
   }
