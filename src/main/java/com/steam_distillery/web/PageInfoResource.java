@@ -17,4 +17,14 @@ public class PageInfoResource {
   boolean hasPrevious(Page<?> page) {
     return page.hasPrevious();
   }
+
+  @SchemaMapping
+  long totalElements(Page<?> page) {
+    return page.getTotalElements();
+  }
+
+  @SchemaMapping
+  int totalPages(Page<?> page) {
+    return page.getTotalPages();
+  }
 }

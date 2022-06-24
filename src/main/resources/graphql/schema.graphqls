@@ -53,4 +53,10 @@ type PageInfo {
 
     """When paginating backwards, are there more items?"""
     hasPrevious: Boolean!
+
+    """The total number of elements."""
+    totalElements: Int!
+
+    """The total number of pages."""
+    totalPages: Int!
 }
