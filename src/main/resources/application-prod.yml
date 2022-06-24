@@ -7,3 +7,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  h2:
+    console:
+      enabled: false
+scheduling:
+  enabled: true
