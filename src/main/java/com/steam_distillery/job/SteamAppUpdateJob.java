@@ -40,11 +40,20 @@ public class SteamAppUpdateJob {
 
     newAppids
         .stream()
-        .map(app -> apiService.getSteamApp(app.getAppid()))
+        .map(this::fetchAppInfo)
         .flatMap(Optional::stream)
         .forEach(this::addSteamApp);
 
     log.info("Finished updating steam app database");
+  }
+
+  private Optional<SteamApp> fetchAppInfo(SteamApp app) {
+    try {
+      return apiService.getSteamApp(app.getAppid());
+    } catch (Exception e) {
+      log.error("Failed to get appinfo for appid: " + app.getAppid(), e);
+      return Optional.empty();
+    }
   }
 
   private void addSteamApp(SteamApp app) {
