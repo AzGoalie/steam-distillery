@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class SteamDistilleryApplication {
+
   public static void main(String[] args) {
     SpringApplication.run(SteamDistilleryApplication.class, args);
   }

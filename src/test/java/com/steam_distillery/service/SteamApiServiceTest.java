@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     "steam.app-details-url=http://localhost:9876/api/appdetails"})
 @WireMockTest(httpPort = 9876)
 public class SteamApiServiceTest {
+
   private static final SteamApp COUNTER_STRIKE = new SteamApp(10L, "Counter-Strike");
   private static final SteamApp HALF_LIFE = new SteamApp(70L, "Half-Life",
       Set.of(new Category(2L, "Single-player"), new Category(36L, "Online PvP")));

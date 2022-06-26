@@ -16,6 +16,7 @@ import javax.persistence.NamedEntityGraph;
     @NamedAttributeNode("categories")})
 @Entity
 public class SteamApp {
+
   @Id
   @JsonAlias({"steam_appid"})
   private Long appid;

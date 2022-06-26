@@ -29,14 +29,12 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class SteamAppResource {
-  private static final Logger log = LoggerFactory.getLogger(SteamAppResource.class);
 
+  private static final Logger log = LoggerFactory.getLogger(SteamAppResource.class);
+  private final SteamAppRepository appRepository;
+  private final SteamApiService apiService;
   @Value("${max-page-size}")
   private int maxPageSize;
-
-  private final SteamAppRepository appRepository;
-
-  private final SteamApiService apiService;
 
   public SteamAppResource(SteamAppRepository appRepository, SteamApiService apiService) {
     this.appRepository = appRepository;
@@ -103,5 +101,6 @@ public class SteamAppResource {
   }
 
   private record AppFilter(List<Long> appids, List<String> categories, int limit, int page) {
+
   }
 }

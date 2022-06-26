@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class CategoryResource {
+
   private final CategoryRepository repository;
 
   public CategoryResource(CategoryRepository repository) {

@@ -18,6 +18,7 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase
 public class SteamAppResourceTest {
+
   private static final SteamApp COUNTER_STRIKE = new SteamApp(10L, "Counter-Strike",
       Set.of(new Category(36L, "Online PvP")));
   private static final SteamApp HALF_LIFE = new SteamApp(70L, "Half-Life",

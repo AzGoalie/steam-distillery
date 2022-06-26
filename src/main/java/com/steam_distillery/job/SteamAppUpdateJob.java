@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SteamAppUpdateJob {
+
   private static final Logger log = LoggerFactory.getLogger(SteamAppUpdateJob.class);
   private final SteamAppRepository repository;
 
