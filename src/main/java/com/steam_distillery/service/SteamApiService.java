@@ -15,18 +15,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class SteamApiService {
+
   private static final Logger log = LoggerFactory.getLogger(SteamApiService.class);
-
-  @Value("${steam.app-details-url}")
-  private String appDetailsUrl;
-
-  @Value("${steam.api-base-url}")
-  private String apiBaseUrl;
-
+  private final WebClient client;
   @Value("${steam.api-key}")
   String apiKey;
-
-  private final WebClient client;
+  @Value("${steam.app-details-url}")
+  private String appDetailsUrl;
+  @Value("${steam.api-base-url}")
+  private String apiBaseUrl;
 
   public SteamApiService(WebClient.Builder builder,
       @Value("${max-buffer-size}") int maxBufferSize) {
@@ -39,7 +36,9 @@ public class SteamApiService {
     log.info("Fetching all appids");
 
     record Response(AppList applist) {
+
       record AppList(Set<SteamApp> apps) {
+
       }
     }
 
@@ -60,6 +59,7 @@ public class SteamApiService {
     log.info("Fetching details for appid {}", appid);
 
     record Response(boolean success, SteamApp data) {
+
     }
 
     return client.get()
@@ -69,7 +69,7 @@ public class SteamApiService {
         })
         .delayElement(Duration.ofSeconds(2))
         .map(map -> map.get(appid))
-        .filter(Response::success)
+        .filter(response -> response.success && response.data.getAppid().equals(appid))
         .map(Response::data)
         .blockOptional();
   }
@@ -77,7 +77,9 @@ public class SteamApiService {
   public Set<SteamApp> getOwnedApps(long steamid) {
 
     record Response(OwnedGames response) {
+
       record OwnedGames(long game_count, Set<SteamApp> games) {
+
       }
     }
 
