@@ -14,6 +14,6 @@ meets all the following features.
 * Expose a GraphQL endpoint to query the database.
 
 ## Implementations planned
-* Java / Spring-Boot
+* [Java / Spring-Boot](https://github.com/AzGoalie/steam-distillery/tree/spring-boot)
 * JavaScript/Typescript
 * Clojure
