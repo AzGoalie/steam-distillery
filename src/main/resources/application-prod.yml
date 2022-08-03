@@ -10,5 +10,7 @@ spring:
   h2:
     console:
       enabled: false
+  devtools:
+    add-properties: false
 scheduling:
   enabled: true

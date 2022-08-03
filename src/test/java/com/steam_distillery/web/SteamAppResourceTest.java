@@ -1,5 +1,7 @@
 package com.steam_distillery.web;
 
+import static org.mockito.Mockito.when;
+
 import com.steam_distillery.model.Category;
 import com.steam_distillery.model.SteamApp;
 import com.steam_distillery.repository.SteamAppRepository;
@@ -61,5 +63,21 @@ public class SteamAppResourceTest {
         .path("app")
         .entity(SteamApp.class)
         .isEqualTo(COUNTER_STRIKE);
+  }
+
+  @Test
+  public void testGetOwnedApps() {
+    final long steamid = 1L;
+    final Set<SteamApp> ownedApps = Set.of(HALF_LIFE);
+    when(apiService.getOwnedApps(steamid)).thenReturn(ownedApps);
+
+    graphQlTester
+        .documentName("getOwnedApps")
+        .variable("steamid", steamid)
+        .execute()
+        .path("getOwnedApps")
+        .entityList(SteamApp.class)
+        .contains(HALF_LIFE)
+        .doesNotContain(COUNTER_STRIKE);
   }
 }

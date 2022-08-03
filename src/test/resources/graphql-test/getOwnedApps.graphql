@@ -1,0 +1,7 @@
+query getOwnedApps($steamid: ID!) {
+    getOwnedApps(steamid: $steamid) {
+        appid
+        name
+        categories
+    }
+}
