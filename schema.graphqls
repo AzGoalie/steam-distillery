@@ -5,6 +5,9 @@ type Query {
     """Get an individual app."""
     app(appid: ID!): App
 
+    """Get the owned apps for the given steamids."""
+    getOwnedApps(steamids: [ID!]!): [OwnedApps]
+
     """Fetch a list of all categories."""
     categories: [String]
 }
@@ -18,7 +21,7 @@ type App {
     name: String!
 
     """The categories the application is part of."""
-    categories: [String]!
+    categories: [String]
 }
 
 """A filter for searching apps."""
@@ -53,4 +56,16 @@ type PageInfo {
 
     """When paginating backwards, are there more items?"""
     hasPrevious: Boolean!
+
+    """The total number of elements."""
+    totalElements: Int!
+
+    """The total number of pages."""
+    totalPages: Int!
+}
+
+"""Results of the owned apps for a given steamid."""
+type OwnedApps {
+    steamid: ID!
+    apps: [App]
 }
