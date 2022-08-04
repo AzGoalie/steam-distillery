@@ -4,6 +4,9 @@ Steam Distillery is a sample application designed to experiment with different l
 frameworks. Each branch of this repository is a different implementation of the application that
 meets all the following features.
 
+## Live Demo
+A live demo can be found here: https://steam.pepitozcatemporium.com/
+
 ## Features
 
 * Pull a list of all steam apps from https://api.steampowered.com/ISteamApps/GetAppList/v2/ and
@@ -13,7 +16,9 @@ meets all the following features.
   task is still processing.
 * Expose a GraphQL endpoint to query the database.
 
-## Implementations planned
+## Implementations Completed
 * [Java / Spring-Boot](https://github.com/AzGoalie/steam-distillery/tree/spring-boot)
+
+## Implementations planned
 * JavaScript/Typescript
 * Clojure
