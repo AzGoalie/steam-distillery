@@ -17,3 +17,6 @@ scheduling:
 logging:
   file:
     path: logs
+server:
+  compression:
+    enabled: true
