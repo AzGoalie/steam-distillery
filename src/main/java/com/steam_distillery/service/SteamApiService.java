@@ -33,7 +33,7 @@ public class SteamApiService {
   }
 
   public Set<SteamApp> getAllSteamApps() {
-    log.info("Fetching all appids");
+    log.debug("Fetching all appids");
 
     record Response(AppList applist) {
 
@@ -51,12 +51,12 @@ public class SteamApiService {
         .onErrorReturn(Collections.emptySet())
         .block();
 
-    log.info("Fetched {} apps", apps.size());
+    log.debug("Fetched {} apps", apps.size());
     return apps;
   }
 
   public Optional<SteamApp> getSteamApp(long appid) {
-    log.info("Fetching details for appid {}", appid);
+    log.debug("Fetching details for appid {}", appid);
 
     record Response(boolean success, SteamApp data) {
 

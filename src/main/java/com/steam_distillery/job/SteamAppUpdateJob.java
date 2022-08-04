@@ -58,7 +58,7 @@ public class SteamAppUpdateJob {
   }
 
   private void addSteamApp(SteamApp app) {
-    log.info("adding [{}]: {}", app.getAppid(), app.getName());
+    log.debug("adding [{}]: {}", app.getAppid(), app.getName());
     repository.save(app);
   }
 }
