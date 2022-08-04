@@ -6,6 +6,7 @@ meets all the following features.
 
 ## Live Demo
 A live demo can be found here: https://steam.pepitozcatemporium.com/
+Repository for UI: https://github.com/AzGoalie/steam-distillery-ui
 
 ## Features
 
