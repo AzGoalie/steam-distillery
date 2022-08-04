@@ -1,0 +1,15 @@
+{
+  "response": {
+    "game_count": 2,
+    "games": [
+      {
+        "appid": 10,
+        "name": "Counter-Strike"
+      },
+      {
+        "appid": 70,
+        "name": "Half-Life"
+      }
+    ]
+  }
+}

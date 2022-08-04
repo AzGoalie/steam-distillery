@@ -1,0 +1,9 @@
+query apps {
+    apps(filter: {page: 0, limit: 100}) {
+        content {
+            appid
+            name
+            categories
+        }
+    }
+}

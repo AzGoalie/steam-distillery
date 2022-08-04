@@ -1,0 +1,7 @@
+query app($appid: ID!) {
+    app(appid: $appid) {
+        appid
+        name
+        categories
+    }
+}
