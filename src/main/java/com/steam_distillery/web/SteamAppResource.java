@@ -70,9 +70,10 @@ public class SteamAppResource {
   }
 
   @QueryMapping
-  Set<SteamApp> getOwnedApps(@Argument long steamid) {
-    log.info("Fetching owned games for steamid: {}", steamid);
-    return apiService.getOwnedApps(steamid);
+  Set<OwnedApps> getOwnedApps(@Argument List<Long> steamids) {
+    log.info("Fetching owned games for steamids: {}", steamids);
+    return steamids.stream().map(id -> new OwnedApps(id, apiService.getOwnedApps(id)))
+        .collect(Collectors.toSet());
   }
 
   @BatchMapping(typeName = "App")
@@ -101,6 +102,10 @@ public class SteamAppResource {
   }
 
   private record AppFilter(List<Long> appids, List<String> categories, int limit, int page) {
+
+  }
+
+  record OwnedApps(long steamid, Set<SteamApp> apps) {
 
   }
 }

@@ -1,7 +1,10 @@
-query getOwnedApps($steamid: ID!) {
-    getOwnedApps(steamid: $steamid) {
-        appid
-        name
-        categories
+query getOwnedApps($steamids: [ID!]!) {
+    getOwnedApps(steamids: $steamids) {
+        steamid
+        apps {
+            appid
+            name
+            categories
+        }
     }
 }

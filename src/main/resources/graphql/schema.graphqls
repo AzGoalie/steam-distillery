@@ -5,11 +5,8 @@ type Query {
     """Get an individual app."""
     app(appid: ID!): App
 
-    """Get the owned apps for a given steamid."""
-    getOwnedApps(steamid: ID!): [App]!
-
-#    """Get the owned apps for the given steamids."""
-#    getOwnedApps(steamids: [ID!]): [OwnedApps]!
+    """Get the owned apps for the given steamids."""
+    getOwnedApps(steamids: [ID!]!): [OwnedApps]
 
     """Fetch a list of all categories."""
     categories: [String]
