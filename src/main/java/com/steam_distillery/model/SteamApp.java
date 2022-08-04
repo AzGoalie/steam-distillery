@@ -61,12 +61,12 @@ public class SteamApp {
       return false;
     }
     SteamApp steamApp = (SteamApp) o;
-    return appid.equals(steamApp.appid) && name.equals(steamApp.name);
+    return appid.equals(steamApp.appid);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(appid, name);
+    return Objects.hash(appid);
   }
 
   @Override
