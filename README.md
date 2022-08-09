@@ -5,7 +5,7 @@ frameworks. Each branch of this repository is a different implementation of the 
 meets all the following features.
 
 ## Live Demo
-A live demo can be found here: https://steam.pepitozcatemporium.com/
+A live demo can be found here: https://steam-distillery.io
 
 Repository for UI: https://github.com/AzGoalie/steam-distillery-ui
 
