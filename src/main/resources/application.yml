@@ -5,6 +5,9 @@ spring:
     cors:
       allowed-origins: '*'
       allow-credentials: false
+logging:
+  level:
+    io.netty.channel.AbstractChannel: error
 
 max-page-size: 100
 max-buffer-size: 10485760

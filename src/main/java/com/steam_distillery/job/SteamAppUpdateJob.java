@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Optional;
 import java.util.Set;
@@ -52,7 +53,7 @@ public class SteamAppUpdateJob {
     private Optional<SteamApp> fetchAppInfo(SteamApp app) {
         try {
             return apiService.getSteamApp(app.getAppid());
-        } catch (Exception e) {
+        } catch (WebClientResponseException e) {
             log.error("Failed to get appinfo for appid: " + app.getAppid(), e);
             return Optional.empty();
         }
