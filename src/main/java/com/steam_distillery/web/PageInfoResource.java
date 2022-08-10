@@ -8,23 +8,23 @@ import org.springframework.stereotype.Controller;
 @SchemaMapping(typeName = "PageInfo")
 public class PageInfoResource {
 
-    @SchemaMapping
-    boolean hasNext(Page<?> page) {
-        return page.hasNext();
-    }
+  @SchemaMapping
+  boolean hasNext(Page<?> page) {
+    return page.hasNext();
+  }
 
-    @SchemaMapping
-    boolean hasPrevious(Page<?> page) {
-        return page.hasPrevious();
-    }
+  @SchemaMapping
+  boolean hasPrevious(Page<?> page) {
+    return page.hasPrevious();
+  }
 
-    @SchemaMapping
-    long totalElements(Page<?> page) {
-        return page.getTotalElements();
-    }
+  @SchemaMapping
+  long totalElements(Page<?> page) {
+    return page.getTotalElements();
+  }
 
-    @SchemaMapping
-    int totalPages(Page<?> page) {
-        return page.getTotalPages();
-    }
+  @SchemaMapping
+  int totalPages(Page<?> page) {
+    return page.getTotalPages();
+  }
 }
