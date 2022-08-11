@@ -1,0 +1,14 @@
+{
+  "response": {
+    "players": [
+      {
+        "steamid": 1234567890,
+        "name": "Test User 1"
+      },
+      {
+        "steamid": 9876543210,
+        "name": "Test User 2"
+      }
+    ]
+  }
+}

@@ -1,12 +1,9 @@
 package com.steam_distillery.web;
 
-import static org.mockito.Mockito.when;
-
 import com.steam_distillery.model.Category;
 import com.steam_distillery.model.SteamApp;
 import com.steam_distillery.repository.SteamAppRepository;
 import com.steam_distillery.service.SteamApiService;
-import com.steam_distillery.web.SteamAppResource.OwnedApps;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,29 +61,5 @@ public class SteamAppResourceTest {
         .path("app")
         .entity(SteamApp.class)
         .isEqualTo(COUNTER_STRIKE);
-  }
-
-  @Test
-  public void testGetOwnedApps() {
-    final long steamid1 = 1L;
-    final long steamid2 = 2L;
-
-    final Set<SteamApp> steamid1Apps = Set.of(HALF_LIFE);
-    final Set<SteamApp> steamid2Apps = Set.of(COUNTER_STRIKE);
-
-    when(apiService.getOwnedApps(steamid1)).thenReturn(steamid1Apps);
-    when(apiService.getOwnedApps(steamid2)).thenReturn(steamid2Apps);
-
-    final OwnedApps steamid1Result = new OwnedApps(steamid1, steamid1Apps);
-    final OwnedApps steamid2Result = new OwnedApps(steamid2, steamid2Apps);
-
-    graphQlTester
-        .documentName("getOwnedApps")
-        .variable("steamids", Set.of(steamid1, steamid2))
-        .execute()
-        .path("getOwnedApps")
-        .entityList(OwnedApps.class)
-        .contains(steamid1Result)
-        .contains(steamid2Result);
   }
 }

@@ -1,11 +1,14 @@
 package com.steam_distillery.service;
 
 import com.steam_distillery.model.SteamApp;
+import com.steam_distillery.model.User;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,6 +78,7 @@ public class SteamApiService {
   }
 
   public Set<SteamApp> getOwnedApps(long steamid) {
+    log.debug("Fetching owned apps for steamid {}", steamid);
 
     record Response(OwnedGames response) {
 
@@ -98,5 +102,35 @@ public class SteamApiService {
         .map(response -> response.response.games)
         .onErrorReturn(Collections.emptySet())
         .block();
+  }
+
+  public Set<User> getPlayerSummaries(Collection<Long> steamids) {
+    log.debug("Getting player summaries for steamids {}", steamids);
+    record Response(PlayerSummary response) {
+
+      record PlayerSummary(Set<User> players) {
+
+      }
+    }
+
+    String steamidsStr = steamids.stream().map(id -> Long.toString(id))
+        .collect(Collectors.joining(","));
+
+    return client
+        .get()
+        .uri(apiBaseUrl + "/ISteamUser/GetPlayerSummaries/v2/",
+            uriBuilder -> uriBuilder
+                .queryParam("key", apiKey)
+                .queryParam("steamids", steamidsStr)
+                .build())
+        .retrieve()
+        .bodyToMono(Response.class)
+        .map(response -> response.response.players)
+        .onErrorReturn(Collections.emptySet())
+        .block();
+  }
+
+  public Optional<User> getPlayerSummary(long steamid) {
+    return getPlayerSummaries(Set.of(steamid)).stream().findFirst();
   }
 }

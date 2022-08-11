@@ -10,8 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.steam_distillery.model.Category;
 import com.steam_distillery.model.SteamApp;
+import com.steam_distillery.model.User;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,5 +79,40 @@ public class SteamApiServiceTest {
     Set<SteamApp> apps = apiService.getOwnedApps(steamid);
     assertThat(apps).hasSize(2);
     assertThat(apps).contains(COUNTER_STRIKE);
+  }
+
+  @Test
+  public void testGetPlayerSummaries() {
+    final var steamids = List.of(1234567890L, 9876543210L);
+    final var steamidsStr = steamids.stream().map(id -> Long.toString(id))
+        .collect(Collectors.joining(","));
+
+    stubFor(get(urlPathEqualTo("/api/ISteamUser/GetPlayerSummaries/v2/"))
+        .withQueryParam("key", equalTo(apiKey))
+        .withQueryParam("steamids", equalTo(steamidsStr))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("player-summaries.json")));
+
+    Set<User> users = apiService.getPlayerSummaries(steamids);
+    assertThat(users).hasSize(2);
+    assertThat(users).contains(new User(steamids.get(0), "Test User 1"));
+    assertThat(users).contains(new User(steamids.get(1), "Test User 2"));
+  }
+
+  @Test
+  public void testGetPlayerSummary() {
+    final var steamid = 1234567890L;
+
+    stubFor(get(urlPathEqualTo("/api/ISteamUser/GetPlayerSummaries/v2/"))
+        .withQueryParam("key", equalTo(apiKey))
+        .withQueryParam("steamids", equalTo(Long.toString(steamid)))
+        .willReturn(aResponse()
+            .withHeader("Content-Type", "application/json")
+            .withBodyFile("player-summary.json")));
+
+    Optional<User> user = apiService.getPlayerSummary(steamid);
+    assertThat(user).isPresent();
+    assertThat(user).contains(new User(steamid, "Test User"));
   }
 }

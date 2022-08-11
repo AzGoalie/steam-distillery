@@ -5,8 +5,11 @@ type Query {
     """Get an individual app."""
     app(appid: ID!): App
 
-    """Get the owned apps for the given steamids."""
-    getOwnedApps(steamids: [ID!]!): [OwnedApps]
+    """Get an individual user."""
+    user(steamid: ID!): User
+
+    """Fetches all users with the given steamids."""
+    users(steamids: [ID!]!): [User]
 
     """Fetch a list of all categories."""
     categories: [String]
@@ -64,8 +67,14 @@ type PageInfo {
     totalPages: Int!
 }
 
-"""Results of the owned apps for a given steamid."""
-type OwnedApps {
+"""Information about a user."""
+type User {
+    """The steamid of the user."""
     steamid: ID!
-    apps: [App]
+
+    """The display name of the user."""
+    name: String
+
+    """The apps that the user owns."""
+    ownedApps: [App]
 }

@@ -69,13 +69,6 @@ public class SteamAppResource {
     return appRepository.findById(appid);
   }
 
-  @QueryMapping
-  Set<OwnedApps> getOwnedApps(@Argument List<Long> steamids) {
-    log.info("Fetching owned games for steamids: {}", steamids);
-    return steamids.stream().map(id -> new OwnedApps(id, apiService.getOwnedApps(id)))
-        .collect(Collectors.toSet());
-  }
-
   @BatchMapping(typeName = "App")
   Map<SteamApp, Set<String>> categories(Set<SteamApp> apps) {
     Set<Long> appids = apps.stream().map(SteamApp::getAppid).collect(Collectors.toSet());
@@ -102,10 +95,6 @@ public class SteamAppResource {
   }
 
   private record AppFilter(List<Long> appids, List<String> categories, int limit, int page) {
-
-  }
-
-  record OwnedApps(long steamid, Set<SteamApp> apps) {
 
   }
 }
