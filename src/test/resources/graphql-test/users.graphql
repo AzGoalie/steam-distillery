@@ -1,0 +1,10 @@
+query users($steamids: [ID!]!) {
+    users(steamids: $steamids) {
+        steamid
+        name
+        ownedApps {
+            appid
+            name
+        }
+    }
+}
